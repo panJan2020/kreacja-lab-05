@@ -4,5 +4,9 @@
         <file>save.png</file>
         <file>open.png</file>
         <file>exit.png</file>
+        <file>eye.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>land.jpg</file>
     </qresource>
 </RCC>

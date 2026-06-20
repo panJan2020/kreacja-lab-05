@@ -1,11 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    colorDisplay.setMinimumWidth(250);
+    colorDisplay.setFrameStyle(QFrame::WinPanel);
 
     info.setMinimumWidth(250);
     info.setFrameStyle(QFrame::WinPanel);
@@ -23,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->statusBar->addPermanentWidget(&czas_info);
     ui->statusBar->addPermanentWidget(&pasek);
     ui->statusBar->addPermanentWidget(&info);
+    ui->statusBar->addPermanentWidget(&colorDisplay);
 
     zegarek = new QTimer (this);
     zegarek->start(1000);           // interwał w [ms]
@@ -37,6 +42,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->label->setPixmap(piksele_obrazu);
 
     setMinimumSize(QSize(1024,768));
+
+    _akcjaProbnik = new QAction("Probnik", this);
+    _akcjaProbnik->setShortcut(QKeySequence("Ctrl+U"));
+    _akcjaProbnik->setToolTip("Odczyt Koloru");
+    _akcjaProbnik->setStatusTip("Kolor wskazanego piksela.");
+    _akcjaProbnik->setIcon(QIcon(":/ikony/eye.png"));
+    _akcjaProbnik->setCheckable(true);
+
+    ui->toolBar->addSeparator();
+    ui->toolBar->addAction(_akcjaProbnik);
+
+    // Setup filtra labela
+    _myLabelFiler = new MyLabelFilter(this);
+    ui->label->installEventFilter(_myLabelFiler);
+    qApp->installEventFilter(this);
+
+    piksele_obrazu = QPixmap(":/land.jpg");
 }
 
 MainWindow::~MainWindow()
@@ -51,6 +73,61 @@ void MainWindow::setInfo(QString tekst, int ile)
 {
     info.setText(tekst);
     licznik=ile;
+}
+
+void MainWindow::setInfoColor(QColor color)
+{
+    colorDisplay.setStyleSheet("");
+    QPalette paleta = colorDisplay.palette();
+    paleta.setColor(QPalette::Window, color);
+    colorDisplay.setStyleSheet("");
+    colorDisplay.setAutoFillBackground(true);
+    colorDisplay.setPalette(paleta);
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event) {
+
+    ui->label->setPixmap(piksele_obrazu.scaled(ui->label->size()));
+}
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event) {
+
+    if (event->type() == QEvent::KeyPress) {
+
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Space) {
+
+            if (getAkcjaProbnik()->isChecked()) {
+
+                onProbnikAktywacja();
+                return true;
+            }
+        }
+
+        else if (keyEvent->key() == Qt::Key_Escape) {
+
+            getAkcjaProbnik()->setChecked(false);
+        }
+    }
+
+    return QObject::eventFilter(watched, event);
+}
+
+QAction *MainWindow::getAkcjaProbnik() {
+
+    return _akcjaProbnik;
+}
+
+void MainWindow::onProbnikAktywacja() {
+
+    QImage temp = ui->label->pixmap().toImage();
+    int x, y;
+    x = ui->label->mapFromGlobal(QCursor::pos()).x();
+    y = ui->label->mapFromGlobal(QCursor::pos()).y();
+    QColor wybranyKolor = temp.pixelColor(x, y);
+
+    setInfo(wybranyKolor.name(), 5);
+    setInfoColor(wybranyKolor);
 }
 
 void MainWindow::on_timeout()

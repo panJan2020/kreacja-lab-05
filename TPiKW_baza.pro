@@ -18,11 +18,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     dialog.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    mylabelfilter.cpp
 
 HEADERS += \
     dialog.h \
-    mainwindow.h
+    mainwindow.h \
+    mylabelfilter.h
 
 FORMS += \
     dialog.ui \

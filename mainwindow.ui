@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>588</width>
+    <height>431</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,18 +15,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <property name="leftMargin">
-     <number>0</number>
-    </property>
-    <property name="topMargin">
-     <number>0</number>
-    </property>
-    <property name="rightMargin">
-     <number>0</number>
-    </property>
-    <property name="bottomMargin">
-     <number>0</number>
-    </property>
     <item row="0" column="0">
      <widget class="QScrollArea" name="scrollArea">
       <property name="widgetResizable">
@@ -37,8 +25,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>798</width>
-         <height>521</height>
+         <width>574</width>
+         <height>349</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -56,26 +44,8 @@
         </property>
         <item row="0" column="0">
          <widget class="QLabel" name="label">
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::Panel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Sunken</enum>
-          </property>
-          <property name="lineWidth">
-           <number>2</number>
-          </property>
           <property name="text">
-           <string/>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <string>TextLabel</string>
           </property>
          </widget>
         </item>
@@ -90,8 +60,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>22</height>
+     <width>588</width>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPlik">
